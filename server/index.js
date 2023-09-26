@@ -1,3 +1,4 @@
+// import Connection from "./database/db";
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
@@ -110,16 +111,27 @@ app.put("/api/unpin/:id", (req, res) => {
 });
 
 // defining route
-app.get("/", (req, res) => {
-  // const sqlInsert =
-  //   "INSERT INTO crud_notes (title, tagline, content) VALUES ('abch', 'snfohf', 'djoadad')";
-  // db.query(sqlInsert, (err, result) => {
-  //   console.log("error", err);
-  //   console.log("result", result);
-  // res.send("Hello");
-  // });
-});
+app.get("/", (req, res) => {});
+// Connection();
 
 app.listen(5050, () => {
   console.log("Server is running on port 5050");
 });
+// const express = require("express");
+// const Connection = require("./database/db"); // Import the Connection function
+
+// const app = express();
+// const PORT = 5050;
+
+// async function startServer() {
+//   console.log("Starting server...");
+//   try {
+//     await Connection(); // Use the Connection function
+//     console.log("Connected to MongoDB");
+//     app.listen(PORT, () => console.log(`Server is running at port ${PORT}`));
+//   } catch (error) {
+//     console.error("Error starting the server:", error);
+//   }
+// }
+
+// startServer();
