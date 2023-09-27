@@ -7,6 +7,7 @@ import "../App.css";
 
 const AddEdit = () => {
   const { id } = useParams();
+  console.log(id);
   const isNewNote = !id;
 
   const initialState = {
@@ -19,9 +20,16 @@ const AddEdit = () => {
 
   useEffect(() => {
     if (!isNewNote) {
-      // fetch existing note data only if it's not a new note
+      // Fetch existing note data only if it's not a new note
       axios.get(`http://localhost:5050/api/get/${id}`).then((resp) => {
-        setNote({ ...resp.data[0] });
+        console.log(id);
+        if (resp.data.length > 0) {
+          // Check if there's data in the response before setting the state
+          setNote({ ...resp.data[0] });
+        } else {
+          // Handle the case where the note with the given ID is not found
+          toast.error("Note not found");
+        }
       });
     }
   }, [id, isNewNote]);
@@ -50,7 +58,7 @@ const AddEdit = () => {
           window.location.href = "/";
         }, 2000);
       } catch (error) {
-        toast.error(error.response.data);
+        toast.error(error.response.data.error || "An error occurred");
       }
     }
   };

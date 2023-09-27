@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -11,6 +11,8 @@ const Home = () => {
   const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const cardsPerPage = 6;
+  const { id } = useParams();
+  console.log(id);
 
   const loadData = async () => {
     try {
@@ -107,7 +109,7 @@ const Home = () => {
         </div>
         <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
           {currentData.map((item) => (
-            <div className="col mb-3" key={item.id}>
+            <div className="col mb-3" key={item._id}>
               <div className="card">
                 {/* Wrap the card content in an <a> with onClick for editing */}
                 <Link
@@ -146,7 +148,7 @@ const Home = () => {
                     ></i>
                   </Link>
                   <Link
-                    onClick={() => deleteNote(item.id)}
+                    onClick={() => deleteNote(item._id)}
                     style={{ textDecoration: "none" }}
                     title="Trash"
                   >
