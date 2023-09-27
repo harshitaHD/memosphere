@@ -6,9 +6,9 @@ import "react-toastify/dist/ReactToastify.css";
 import "../App.css";
 
 const AddEdit = () => {
-  const { id } = useParams();
-  console.log(id);
-  const isNewNote = !id;
+  const { noteId } = useParams();
+  // console.log(noteId);
+  const isNewNote = !noteId;
 
   const initialState = {
     title: "",
@@ -21,8 +21,7 @@ const AddEdit = () => {
   useEffect(() => {
     if (!isNewNote) {
       // Fetch existing note data only if it's not a new note
-      axios.get(`http://localhost:5050/api/get/${id}`).then((resp) => {
-        console.log(id);
+      axios.get(`http://localhost:5050/api/get/${noteId}`).then((resp) => {
         if (resp.data.length > 0) {
           // Check if there's data in the response before setting the state
           setNote({ ...resp.data[0] });
@@ -32,7 +31,7 @@ const AddEdit = () => {
         }
       });
     }
-  }, [id, isNewNote]);
+  }, [noteId, isNewNote]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -46,7 +45,12 @@ const AddEdit = () => {
           await axios.post("http://localhost:5050/api/post", note);
         } else {
           // Update an existing note
-          await axios.put(`http://localhost:5050/api/update/${id}`, note);
+          if (!noteId) {
+            toast.error("Note ID is missing");
+            return;
+          }
+
+          await axios.put(`http://localhost:5050/api/update/${noteId}`, note);
         }
 
         // Clear form inputs on success

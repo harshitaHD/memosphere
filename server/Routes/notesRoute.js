@@ -8,7 +8,7 @@ router.post("/api/post", async (req, res) => {
     const data = new noteSchema(req.body);
     const savedNote = await data.save();
     console.log("Note saved:", savedNote);
-    res.status(201).json(savedNote); // Changed status to 201 for successful resource creation
+    res.status(201).json(savedNote);
   } catch (error) {
     console.error("Error saving note:", error);
     res.status(500).json({ error: "Error saving note" });
@@ -27,9 +27,9 @@ router.get("/api/get", async (req, res) => {
 });
 
 // Get all pinned notes
-router.get("/api/pin", async (req, res) => {
+router.get("/api/pin/:noteId", async (req, res) => {
   try {
-    const pinnedNotes = await noteSchema.find({ pinned: true });
+    const pinnedNotes = await noteSchema.find({ isPinned: true });
     res.status(200).json(pinnedNotes);
   } catch (error) {
     console.error("Error fetching pinned notes:", error);
@@ -38,9 +38,9 @@ router.get("/api/pin", async (req, res) => {
 });
 
 // Get all not pinned notes
-router.get("/api/unpin", async (req, res) => {
+router.get("/api/unpin/noteId", async (req, res) => {
   try {
-    const notPinnedNotes = await noteSchema.find({ pinned: false });
+    const notPinnedNotes = await noteSchema.find({ isPinned: false });
     res.status(200).json(notPinnedNotes);
   } catch (error) {
     console.error("Error fetching not pinned notes:", error);

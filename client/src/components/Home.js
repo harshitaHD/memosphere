@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -11,8 +11,8 @@ const Home = () => {
   const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const cardsPerPage = 6;
-  const { id } = useParams();
-  console.log(id);
+  // const { id } = useParams();
+  // console.log(id);
 
   const loadData = async () => {
     try {
@@ -40,20 +40,23 @@ const Home = () => {
       });
   };
 
-  const togglePin = (id, isPinned) => {
-    axios
-      .put(`http://localhost:5050/api/${isPinned ? "unpin" : "pin"}/${id}`)
-      .then(() => {
-        toast.success(
-          isPinned ? "Unpinned Successfully" : "Pinned Successfully"
-        );
-        loadData();
-      })
-      .catch((error) => {
-        console.error("Error toggling pin:", error);
-        toast.error("An error occurred while pinning/unpinning.");
-      });
-  };
+  const togglePin = (noteId, isPinned) => {
+  const action = isPinned ? "unpin" : "pin";
+
+  axios
+    .get(`http://localhost:5050/api/${action}/${noteId}`)
+    .then(() => {
+      toast.success(
+        isPinned ? "Unpinned Successfully" : "Pinned Successfully"
+      );
+      loadData(); 
+    })
+    .catch((error) => {
+      console.error("Error toggling pin:", error);
+      toast.error("An error occurred while pinning/unpinning.");
+    });
+};
+
 
   const downloadNoteAsTxt = (note) => {
     // Create a Blob containing the note data
@@ -113,7 +116,7 @@ const Home = () => {
               <div className="card">
                 {/* Wrap the card content in an <a> with onClick for editing */}
                 <Link
-                  to={`/update/${item.id}`}
+                  to={`/update/${item._id}`}
                   style={{ textDecoration: "none", color: "inherit" }}
                 >
                   <div className="card-body">
@@ -161,7 +164,7 @@ const Home = () => {
                     ></i>
                   </Link>
                   <Link
-                    onClick={() => togglePin(item.id, item.isPinned)}
+                    onClick={() => togglePin(item._id, item.isPinned)}
                     title="Pin/Unpin"
                   >
                     {item.isPinned ? (
