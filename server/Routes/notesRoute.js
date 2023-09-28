@@ -18,6 +18,8 @@ router.post("/api/post", async (req, res) => {
 // Get all notes
 router.get("/", async (req, res) => {
   try {
+    res.setHeader("Access-Control-Allow-Credentials", true);
+    res.setHeader("Access-Control-Allow-Origin", "*");
     const notes = await noteSchema.find();
     res.status(200).json(notes);
   } catch (error) {
