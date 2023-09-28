@@ -14,7 +14,7 @@ const Home = () => {
 
   const loadData = async () => {
     try {
-      const response = await axios.get("http://localhost:5050/api/get");
+      const response = await axios.get("https://memosphere-backend.vercel.app/get");
       setData(response.data);
     } catch (error) {
       console.error("Error fetching data:", error);
