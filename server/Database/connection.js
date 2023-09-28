@@ -2,7 +2,8 @@ const mongoose = require("mongoose");
 
 require("dotenv").config();
 
-const mongoURI = process.env.MONGO_URI;
+const mongoURI =
+  "mongodb+srv://user:1234@cluster0.jedknjn.mongodb.net/?retryWrites=true&w=majority";
 
 mongoose
   .connect(mongoURI, {
