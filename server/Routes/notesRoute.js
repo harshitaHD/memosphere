@@ -42,7 +42,6 @@ router.get("/api/pin/:noteId", async (req, res) => {
 
     res.status(200).json(updatedNote);
   } catch (error) {
-    console.error("Error toggling pin:", error);
     res.status(500).json({ error: "Error toggling pin" });
   }
 });
@@ -74,7 +73,6 @@ router.delete("/api/remove/:id", async (req, res) => {
     const deletedNote = await noteSchema.findByIdAndDelete(noteId);
 
     if (deletedNote) {
-      console.log("Note deleted:", deletedNote);
       res.status(200).json({ message: "Note deleted successfully" });
     } else {
       res.status(404).json({ message: "Note not found" });
@@ -82,6 +80,20 @@ router.delete("/api/remove/:id", async (req, res) => {
   } catch (error) {
     console.error("Error deleting note:", error);
     res.status(500).json({ error: "Error deleting note" });
+  }
+});
+
+router.get("/api/get/:id", async (req, res) => {
+  try {
+    const noteId = req.params.id;
+    const note = await noteSchema.findById(noteId);
+
+    if (!note) {
+      return res.status(404).json({ error: "Note not found" });
+    }
+    res.status(200).json(note);
+  } catch (error) {
+    res.status(500).json({ error: "Error fetching note" });
   }
 });
 
@@ -94,13 +106,11 @@ router.put("/api/update/:id", async (req, res) => {
     });
 
     if (updatedNote) {
-      console.log("Note updated:", updatedNote);
       res.status(200).json(updatedNote);
     } else {
       res.status(404).json({ message: "Note not found" });
     }
   } catch (error) {
-    console.error("Error updating note:", error);
     res.status(500).json({ error: "Error updating note" });
   }
 });

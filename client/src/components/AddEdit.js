@@ -7,7 +7,6 @@ import "../App.css";
 
 const AddEdit = () => {
   const { noteId } = useParams();
-  console.log("Fetching note with ID:", noteId);
   const isNewNote = !noteId;
 
   const initialState = {
@@ -20,13 +19,11 @@ const AddEdit = () => {
 
   useEffect(() => {
     if (!isNewNote) {
-      // Fetch existing note data only if it's not a new note
       axios.get(`http://localhost:5050/api/get/${noteId}`).then((resp) => {
-        if (resp.data.length > 0) {
-          //if there's data in the response before setting the state
-          setNote({ ...resp.data[0] });
+        if (resp.data) {
+          // Set the note state with the received data
+          setNote({ ...resp.data });
         } else {
-          // Handle the case where the note with the given ID is not found
           toast.error("Note not found");
         }
       });
