@@ -18,6 +18,8 @@ const Home = () => {
       setData(response.data);
     } catch (error) {
       console.error("Error fetching data:", error);
+    console.error("Error status:", error.response?.status);
+    console.error("Error message:", error.message);
     }
   };
 
