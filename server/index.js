@@ -3,7 +3,7 @@ require("./Database/connection");
 const cors = require("cors");
 const noteRoutes = require("./Routes/notesRoute");
 
-const PORT = 5050;
+const PORT = process.env.PORT || 5050;
 
 const app = express();
 
