@@ -14,7 +14,7 @@ const Home = () => {
 
   const loadData = async () => {
     try {
-      const response = await axios.get("https://memosphere-backend.vercel.app/api/get");
+      const response = await axios.get("http://localhost:5050/api/get");
       setData(response.data);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -33,7 +33,7 @@ const Home = () => {
         loadData();
       })
       .catch((error) => {
-        toast.error("An error occurred while deleting.", error);
+        toast.error("An error occurred while deleting.");
       });
   };
 
