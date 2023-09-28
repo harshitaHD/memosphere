@@ -29,22 +29,41 @@ router.get("/api/get", async (req, res) => {
 // Get all pinned notes
 router.get("/api/pin/:noteId", async (req, res) => {
   try {
-    const pinnedNotes = await noteSchema.find({ isPinned: true });
-    res.status(200).json(pinnedNotes);
+    const noteId = req.params.noteId;
+    const noteToUpdate = await noteSchema.findById(noteId);
+
+    if (!noteToUpdate) {
+      return res.status(404).json({ message: "Note not found" });
+    }
+
+    // Toggle the isPinned status
+    noteToUpdate.isPinned = !noteToUpdate.isPinned;
+    const updatedNote = await noteToUpdate.save();
+
+    res.status(200).json(updatedNote);
   } catch (error) {
-    console.error("Error fetching pinned notes:", error);
-    res.status(500).json({ error: "Error fetching pinned notes" });
+    console.error("Error toggling pin:", error);
+    res.status(500).json({ error: "Error toggling pin" });
   }
 });
 
 // Get all not pinned notes
-router.get("/api/unpin/noteId", async (req, res) => {
+router.get("/api/unpin/:noteId", async (req, res) => {
   try {
-    const notPinnedNotes = await noteSchema.find({ isPinned: false });
-    res.status(200).json(notPinnedNotes);
+    const noteId = req.params.noteId;
+    const noteToUpdate = await noteSchema.findById(noteId);
+
+    if (!noteToUpdate) {
+      return res.status(404).json({ message: "Note not found" });
+    }
+
+    noteToUpdate.isPinned = false;
+    const updatedNote = await noteToUpdate.save();
+
+    res.status(200).json(updatedNote);
   } catch (error) {
-    console.error("Error fetching not pinned notes:", error);
-    res.status(500).json({ error: "Error fetching not pinned notes" });
+    console.error("Error toggling pin:", error);
+    res.status(500).json({ error: "Error toggling pin" });
   }
 });
 

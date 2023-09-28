@@ -11,8 +11,8 @@ const Home = () => {
   const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const cardsPerPage = 6;
-  // const { id } = useParams();
-  // console.log(id);
+  // const { noteId } = useParams();
+  // console.log(noteId);
 
   const loadData = async () => {
     try {
@@ -45,7 +45,8 @@ const Home = () => {
 
   axios
     .get(`http://localhost:5050/api/${action}/${noteId}`)
-    .then(() => {
+    .then((response) => {
+      // console.log("Toggle Pin Response:", response.data); 
       toast.success(
         isPinned ? "Unpinned Successfully" : "Pinned Successfully"
       );
