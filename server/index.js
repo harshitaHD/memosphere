@@ -9,7 +9,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: ["https://memosphere-frontend.vercel.app"],
+    origin: "https://memosphere-frontend.vercel.app",
     methods: ["POST", "GET", "PUT", "DELETE"],
     credentials: true,
   })
