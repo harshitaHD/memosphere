@@ -16,7 +16,7 @@ router.post("/api/post", async (req, res) => {
 });
 
 // Get all notes
-router.get("/api/get", async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const notes = await noteSchema.find();
     res.status(200).json(notes);
