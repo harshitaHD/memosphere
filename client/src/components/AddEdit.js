@@ -19,14 +19,16 @@ const AddEdit = () => {
 
   useEffect(() => {
     if (!isNewNote) {
-      axios.get(`http://localhost:5050/api/get/${noteId}`).then((resp) => {
-        if (resp.data) {
-          // Set the note state with the received data
-          setNote({ ...resp.data });
-        } else {
-          toast.error("Note not found");
-        }
-      });
+      axios
+        .get(`https://memosphere-backend.vercel.app/api/get/${noteId}`)
+        .then((resp) => {
+          if (resp.data) {
+            // Set the note state with the received data
+            setNote({ ...resp.data });
+          } else {
+            toast.error("Note not found");
+          }
+        });
     }
   }, [noteId, isNewNote]);
 
@@ -39,7 +41,10 @@ const AddEdit = () => {
       try {
         if (isNewNote) {
           // Create a new note
-          await axios.post("http://localhost:5050/api/post", note);
+          await axios.post(
+            "https://memosphere-backend.vercel.app/api/post",
+            note
+          );
         } else {
           // Update an existing note
           if (!noteId) {
@@ -47,7 +52,10 @@ const AddEdit = () => {
             return;
           }
 
-          await axios.put(`http://localhost:5050/api/update/${noteId}`, note);
+          await axios.put(
+            `https://memosphere-backend.vercel.app/api/update/${noteId}`,
+            note
+          );
         }
 
         // Clear form inputs on success

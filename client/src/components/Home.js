@@ -29,7 +29,7 @@ const Home = () => {
 
   const deleteNote = (id) => {
     axios
-      .delete(`http://localhost:5050/api/remove/${id}`)
+      .delete(`https://memosphere-backend.vercel.app/api/remove/${id}`)
       .then(() => {
         toast.success("Deleted Successfully");
         loadData();
@@ -43,7 +43,7 @@ const Home = () => {
   const action = isPinned ? "unpin" : "pin";
 
   axios
-    .get(`http://localhost:5050/api/${action}/${noteId}`)
+    .get(`https://memosphere-backend.vercel.app/api/${action}/${noteId}`)
     .then((response) => {
       toast.success(
         isPinned ? "Unpinned Successfully" : "Pinned Successfully"
