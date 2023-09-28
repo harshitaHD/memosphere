@@ -11,8 +11,6 @@ const Home = () => {
   const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const cardsPerPage = 6;
-  // const { noteId } = useParams();
-  // console.log(noteId);
 
   const loadData = async () => {
     try {
@@ -35,8 +33,7 @@ const Home = () => {
         loadData();
       })
       .catch((error) => {
-        console.error("Error deleting note:", error);
-        toast.error("An error occurred while deleting.");
+        toast.error("An error occurred while deleting.", error);
       });
   };
 
@@ -46,14 +43,12 @@ const Home = () => {
   axios
     .get(`http://localhost:5050/api/${action}/${noteId}`)
     .then((response) => {
-      // console.log("Toggle Pin Response:", response.data); 
       toast.success(
         isPinned ? "Unpinned Successfully" : "Pinned Successfully"
       );
       loadData(); 
     })
     .catch((error) => {
-      console.error("Error toggling pin:", error);
       toast.error("An error occurred while pinning/unpinning.");
     });
 };
